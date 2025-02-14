@@ -1,0 +1,124 @@
+/* General body and app container styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f3f4f6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.app-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.instruction-text {
+    font-size: 18px;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+/* Text Box where the typing text appears */
+.text-box {
+    background-color: #e7e7e7;
+    font-size: 20px;
+    color: #444;
+    padding: 20px;
+    border-radius: 8px;
+    min-height: 50px;
+    margin-bottom: 30px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+/* Style for user input */
+textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 30px;
+    outline: none;
+    resize: none;
+    transition: border-color 0.3s ease;
+}
+
+textarea:focus {
+    border-color: #4caf50;
+}
+
+/* Results section */
+#results {
+    margin-top: 30px;
+    font-size: 16px;
+    color: #555;
+}
+
+#results p {
+    margin-bottom: 10px;
+}
+
+strong {
+    color: #333;
+}
+
+/* Restart Button */
+.restart-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 25px;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.restart-button:hover {
+    background-color: #45a049;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .app-container {
+        padding: 20px;
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    .text-box {
+        font-size: 18px;
+    }
+
+    textarea {
+        font-size: 16px;
+    }
+
+    #results {
+        font-size: 14px;
+    }
+}
