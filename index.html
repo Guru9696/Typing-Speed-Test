@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Speed Test</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="typing-test-container">
+            <h1>Typing Speed Test</h1>
+            <p class="instruction-text">Type the text below as quickly and accurately as you can.</p>
+            
+            <div id="text-to-type" class="text-box">
+                Typing speed test helps you to practice your typing speed and accuracy.
+            </div>
+
+            <textarea 
+                id="user-input" 
+                placeholder="Start typing here..." 
+                oninput="checkTyping()"
+                aria-label="Type the above text"
+                autofocus
+            ></textarea>
+
+            <div id="results">
+                <p><strong>Time Taken:</strong> <span id="time">0</span> seconds</p>
+                <p><strong>Typing Speed:</strong> <span id="speed">0</span> WPM</p>
+                <p><strong>Accuracy:</strong> <span id="accuracy">0</span>%</p>
+            </div>
+
+            <button onclick="resetTest()" class="restart-button">Restart Test</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
