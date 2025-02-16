@@ -11,10 +11,23 @@
     <div class="app-container">
         <div class="typing-test-container">
             <h1>Typing Speed Test</h1>
-            <p class="instruction-text">Type the text below as quickly and accurately as you can.</p>
-            
+            <p class="instruction-text">Select a mode and start typing!</p>
+
+            <!-- Mode Selector -->
+            <select id="test-mode">
+                <option value="lines">Typing Lines</option>
+                <option value="words">Typing Words</option>
+            </select>
+
+            <!-- Difficulty Selector -->
+            <select id="difficulty">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+
             <div id="text-to-type" class="text-box">
-                Typing speed test helps you to practice your typing speed and accuracy.
+                <!-- Text will appear here -->
             </div>
 
             <textarea 
