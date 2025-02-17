@@ -1,6 +1,6 @@
-let wordsEasy = ["apple", "cat", "dog"];
-let wordsMedium = ["banana", "computer", "elephant"];
-let wordsHard = ["unbelievable", "extraordinary", "phenomenon"];
+let wordsEasy = ["apple", "cat", "dog", "ball", "desk", "table", "book", "pen", "lamp", "tree", "house", "flower", "car", "sky", "sun", "moon", "bird", "fish", "star", "cloud"];
+let wordsMedium = ["banana", "computer", "elephant", "keyboard", "monitor", "science", "mountain", "country", "ocean", "guitar", "internet", "technology", "library", "giraffe", "pencil", "notebook", "mobile", "universe", "planet", "data"];
+let wordsHard = ["unbelievable", "extraordinary", "phenomenon", "counterproductive", "consequence", "artificial", "intelligence", "engineering", "algorithm", "microprocessor", "mathematics", "superintendent", "philosophy", "exponential", "hydrodynamics", "cryptography", "philanthropy", "neuroscience", "subconscious", "nanotechnology"];
 
 let linesEasy = [
     "The cat sat on the mat and played with the ball of yarn.",
@@ -25,8 +25,10 @@ let currentIndex = 0;
 let currentWordIndex = 0;
 let startTime, endTime;
 let correctCount = 0;
+let incorrectCount = 0;
 let totalCount = 0;
 let mode = "lines"; // Default to lines mode
+let wordTime = 3000; // Default time for word mode (3 seconds)
 
 const userInput = document.getElementById('user-input');
 const textToType = document.getElementById('text-to-type');
@@ -45,14 +47,17 @@ difficultySelect.addEventListener('change', () => {
     resetTest();
 });
 
-// Set difficulty level
+// Set difficulty level and adjust time for words mode
 function setLevel(level) {
     if (level === "easy") {
         currentText = mode === "lines" ? linesEasy : wordsEasy;
+        wordTime = 3000; // 3 seconds per word
     } else if (level === "medium") {
         currentText = mode === "lines" ? linesMedium : wordsMedium;
+        wordTime = 4000; // 4 seconds per word
     } else if (level === "hard") {
         currentText = mode === "lines" ? linesHard : wordsHard;
+        wordTime = 5000; // 5 seconds per word
     }
     currentIndex = 0;
     textToType.innerText = currentText[currentIndex];
@@ -64,12 +69,12 @@ function startTest() {
     if (mode === "lines") {
         textToType.innerText = currentText[currentIndex];
     } else {
-        showWordFor3Seconds();
+        showWordForTime(); // Show word for 3-5 seconds based on difficulty
     }
 }
 
-// Show a word for 3 seconds in "words" mode
-function showWordFor3Seconds() {
+// Show a word for the difficulty-specific time in "words" mode
+function showWordForTime() {
     if (currentWordIndex < currentText.length) {
         textToType.innerText = currentText[currentWordIndex]; // Show word
         userInput.value = ""; // Clear the input field
@@ -82,39 +87,80 @@ function showWordFor3Seconds() {
             const timeTaken = (endTime - startTime) / 1000;
             if (userInput.value.trim() === currentText[currentWordIndex]) {
                 correctCount++;
+            } else {
+                incorrectCount++;
             }
             totalCount++;
             if (currentWordIndex < currentText.length - 1) {
                 currentWordIndex++;
-                showWordFor3Seconds();
+                showWordForTime();
             } else {
                 endTest(); // End the test after 20 words
             }
-        }, 3000); // Word shown for 3 seconds
+        }, wordTime); // Word shown for the difficulty-based time (3-5 seconds)
     }
 }
 
 // Check typing in lines mode
+let wordStatus = []; // Array to store the status of each word (correct/incorrect)
+
 function checkTyping() {
     let typedText = userInput.value.trim();
+    let currentLine = currentText[currentIndex];
+    let wordsInLine = currentLine.split(" ");
+    
+    let currentWord = wordsInLine[currentWordIndex];
 
-    if (mode === "lines") {
-        if (typedText === currentText[currentIndex]) {
-            textToType.style.opacity = "0.3"; // Reduce opacity when line is correct
-            correctCount++;
-            currentIndex++;
-            if (currentIndex < currentText.length) {
-                textToType.innerText = currentText[currentIndex];
-            } else {
-                endTest();
-            }
-            userInput.value = ""; // Clear the input field
-        } else if (!currentText[currentIndex].startsWith(typedText)) {
-            textToType.style.color = "red"; // Highlight in red if incorrect
+    // Check if the user has typed the word correctly
+    if (typedText === currentWord) {
+        // Mark the current word as correct (green)
+        wordStatus[currentWordIndex] = "correct";  // Store status as 'correct'
+        userInput.value = ""; // Clear the input field
+        correctCount++; // Increase the correct count
+        currentWordIndex++; // Move to the next word
+    } else if (!currentWord.startsWith(typedText)) {
+        // If the user typed the word incorrectly, highlight it red
+        wordStatus[currentWordIndex] = "incorrect";  // Store status as 'incorrect'
+    }
+
+    // Update the display with correct and incorrect words
+    let updatedLine = wordsInLine.map((word, index) => {
+        if (wordStatus[index] === "correct") {
+            return `<span style="color: green">${word}</span>`; // Correct word in green
+        } else if (wordStatus[index] === "incorrect") {
+            return `<span style="color: red">${word}</span>`; // Incorrect word in red
         } else {
-            textToType.style.color = "black"; // Reset color
+            return word;  // No status yet, show word as is
+        }
+    }).join(" ");
+
+    textToType.innerHTML = updatedLine; // Update the text with the new colors
+
+    // If all words in the line are typed correctly, move to the next line
+    if (currentWordIndex === wordsInLine.length) {
+        currentIndex++; // Move to the next line
+        if (currentIndex < currentText.length) {
+            textToType.innerText = currentText[currentIndex]; // Show the next line
+            currentWordIndex = 0; // Reset the word index for the new line
+            wordStatus = []; // Clear the word status array for the new line
+        } else {
+            endTest(); // End the test if all lines are typed
         }
     }
+
+    // Continuously calculate WPM and Accuracy
+    updateStats();
+}
+
+function updateStats() {
+    const timeElapsed = (Date.now() - startTime) / 1000; // Time in seconds
+    const totalWordsTyped = correctCount + incorrectCount;
+    const wpm = (totalWordsTyped / timeElapsed) * 60;
+    const accuracy = (correctCount / totalWordsTyped) * 100;
+
+    // Update WPM and accuracy in real-time
+    document.getElementById('speed').innerText = wpm.toFixed(2) + " WPM";
+    document.getElementById('accuracy').innerText = accuracy.toFixed(2) + "%";
 }
 
 // Calculate accuracy and WPM when the test ends
@@ -134,6 +180,7 @@ function endTest() {
 function resetTest() {
     setLevel(difficultySelect.value); // Set the difficulty
     correctCount = 0;
+    incorrectCount = 0;
     totalCount = 0;
     currentWordIndex = 0;
     currentIndex = 0;
