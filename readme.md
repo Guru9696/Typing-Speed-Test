@@ -32,7 +32,7 @@ The JavaScript code tracks your input and compares it to a predefined text. The 
 4. **Completion**: When the entire text is typed correctly, an alert is shown to congratulate you, and the test ends.
 5. **Resetting**: You can reset the test and start again at any time.
 
-## Code Overview
+
 
 ### HTML Structure
 
