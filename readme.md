@@ -38,3 +38,6 @@ The JavaScript code tracks your input and compares it to a predefined text. The 
 
 The HTML provides the structure for displaying the test, including the text to type, input field, and elements to show time, speed, and accuracy.
 
+
+## Contact
+For any inquiries or support, please contact [Your Name] at [your-email@example.com].
